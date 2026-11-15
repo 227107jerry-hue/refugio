@@ -38,7 +38,7 @@ CREATE TABLE mascotas (
   descripcion   TEXT NULL,
   edad_meses    SMALLINT UNSIGNED NULL,
   tamano        ENUM('chico','mediano','grande') NOT NULL,
-  imagen        VARCHAR(255) NULL,              -- ruta relativa, p. ej. 'img/mascotas/luna.jpg'
+  imagen        VARCHAR(255) NULL,
   apto_ninos    BOOLEAN NOT NULL DEFAULT FALSE,
   apto_mascotas BOOLEAN NOT NULL DEFAULT FALSE,
   disponible    BOOLEAN NOT NULL DEFAULT TRUE,

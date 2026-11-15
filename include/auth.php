@@ -1,16 +1,12 @@
 <?php
-// include/auth.php — sesión, CSRF y utilidades compartidas
-
 if (session_status() === PHP_SESSION_NONE) {
-    session_start([
-        'cookie_httponly' => true,
-        'cookie_samesite' => 'Lax',
-    ]);
+    session_set_cookie_params(['httponly' => true, 'samesite' => 'Lax']);
+    session_start();
 }
 
-function e(?string $v): string
+function e($valor): string
 {
-    return htmlspecialchars($v ?? '', ENT_QUOTES, 'UTF-8');
+    return htmlspecialchars((string) $valor, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 }
 
 function csrf_token(): string
@@ -23,8 +19,10 @@ function csrf_token(): string
 
 function csrf_valido(): bool
 {
-    return isset($_POST['csrf'], $_SESSION['csrf'])
-        && hash_equals($_SESSION['csrf'], $_POST['csrf']);
+    $enviado = $_POST['csrf'] ?? '';
+    return is_string($enviado)
+        && isset($_SESSION['csrf'])
+        && hash_equals($_SESSION['csrf'], $enviado);
 }
 
 function usuario_actual(): ?array
